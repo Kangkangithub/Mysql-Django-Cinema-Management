@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<br>
+<div>
+    <div class="container">
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-dark">
+                <i class="bi bi-calendar2-event-fill"></i>
+                <strong>添加影片</strong>
+            </li>
+            <li class="list-group-item">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label"><strong>影片名称</strong></label>
+                        <input type="text" class="form-control" placeholder="请输入影片名称" name="new_title">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>影片类型</strong></label>
+                        <input type="text" class="form-control" placeholder="如：动作、剧情、喜剧等" name="genre">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>影片时长（分钟）</strong></label>
+                        <input type="number" class="form-control" placeholder="请输入影片时长" name="duration">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>导演</strong></label>
+                        <input type="text" class="form-control" placeholder="请输入导演姓名" name="director">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>演员阵容</strong></label>
+                        <textarea class="form-control" rows="3" placeholder="请输入主要演员，多个演员用逗号分隔" name="cast"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>上映日期</strong></label>
+                        <input type="date" class="form-control" name="release_date">
+                    </div>
+
+                    <div style="margin: 10px">
+                        <button type="submit" class="btn btn-primary">提交</button>
+                    </div>
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

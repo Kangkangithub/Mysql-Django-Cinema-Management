@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<br>
+<div>
+    <div class="container">
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-dark">
+                <i class="bi bi-pencil-fill"></i>
+                <strong>编辑座位</strong>
+            </li>
+            <li class="list-group-item">
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>座位编号（不可更改）</strong></label>
+                        <input type="text" class="form-control" value="{{ seat.seat_id }}" disabled>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>座位号</strong></label>
+                        <input type="text" class="form-control" name="seat_number" value="{{ seat.seat_number }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>座位状态</strong></label>
+                        <select class="form-select" name="status">
+                            <option value="0" {% if seat.status == 0 %}selected{% endif %}>可用</option>
+                            <option value="1" {% if seat.status == 1 %}selected{% endif %}>已预订</option>
+                            <option value="2" {% if seat.status == 2 %}selected{% endif %}>已锁定</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>所属影厅</strong></label>
+                        <select class="form-select" name="hall_id">
+                            {% for hall in halls %}
+                                <option value="{{ hall.hall_id }}" {% if hall.hall_id == seat.hall.hall_id %}selected{% endif %}>
+                                    {{ hall.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>所属排片</strong></label>
+                        <select class="form-select" name="schedule_id">
+                            {% for schedule in schedules %}
+                                <option value="{{ schedule.schedule_id }}" {% if schedule.schedule_id == seat.schedule.schedule_id %}selected{% endif %}>
+                                    {{ schedule.movie.title }} - {{ schedule.hall.name }} - {{ schedule.show_time|date:"Y-m-d H:i" }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div style="margin: 10px">
+                        <button type="submit" class="btn btn-primary">保存修改</button>
+                        <a href="/seat/list" class="btn btn-secondary">返回列表</a>
+                    </div>
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

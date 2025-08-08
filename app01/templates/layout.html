@@ -1,0 +1,162 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>管理系统</title>
+    <link rel="stylesheet" href="{% static "bootstrap-5.3.0-alpha1-dist/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "MDB5-STANDARD-UI-KIT-Free-6.2.0/css/mdb.min.css" %}">
+
+    <link rel="stylesheet" href="{% static "bootstrap-icons-1.10.4/font/bootstrap-icons.css" %}">
+    <link rel="stylesheet" href="{% static "fontawesome-free-6.4.0-web/css/fontawesome.min.css" %}">
+    <link rel="stylesheet" href="{% static "fontawesome-free-6.4.0-web/css/brands.min.css" %}">
+    <link rel="stylesheet" href="{% static "fontawesome-free-6.4.0-web/css/solid.min.css" %}">
+
+    {% block css %}{% endblock %}
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">管理系统</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">首页</a>
+        </li>
+          <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/user/list">用户管理</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/movie/list">影片管理</a>
+        </li>
+       <li class="nav-item">
+          <a class="nav-link" href="/hall/list">影厅管理</a>
+        </li>
+          <li class="nav-item">
+          <a class="nav-link" href="/schedules/list">排片管理</a>
+        </li>
+
+          <li class="nav-item">
+          <a class="nav-link" href="/seat/list">座位管理</a>
+        </li>
+
+      <li class="nav-item">
+          <a class="nav-link" href="/order/list">订单管理</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              {% if request.session.info.name %}
+              {{ request.session.info.name }}
+              {% else %}
+                  请登录
+              {% endif %}
+          </a>
+          <ul class="dropdown-menu">
+                {% if not request.session.info.name %}
+            <li><a class="dropdown-item" href="/login/">登录</a></li>
+                {% else %}
+            <li><a class="dropdown-item" href="/logout/">注销</a></li>
+                {% endif %}
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/myadmin/list">管理员账户</a></li>
+          </ul>
+        </li>
+      </ul>
+        <ul class="navbar-nav navbar-right">
+            <li class="nav-item">
+                <a class="nav-link disabled">敬请期待</a>
+            </li>
+        </ul>
+{#      <form class="d-flex" role="search">#}
+{#          <input class="form-control me-2" type="search" placeholder="搜索" aria-label="Search">#}
+{#          <button class="btn btn-outline-success " type="submit" style="width: 100px;"><strong>搜索</strong></button>#}
+{#      </form>#}
+    </div>
+  </div>
+</nav>
+
+<div>
+        {% block content %}{% endblock %}
+</div>
+
+<!-- Footer -->
+<footer class="text-center text-lg-start bg-light text-muted">
+
+  <!-- 电影后台管理系统信息部分 -->
+  <section class="p-4 border-bottom bg-light text-center">
+    <div class="container">
+      <h5 class="fw-bold mb-3">电影后台管理系统</h5>
+      <p>版本号：v1.0.0 &nbsp; | &nbsp; 联系邮箱：support@cinema-admin.com &nbsp; | &nbsp; 服务电话：+86 123 4567 8900</p>
+      <p>如需帮助，请访问 <a href="/help" class="text-primary">帮助中心</a> 或联系系统管理员。</p>
+    </div>
+  </section>
+
+  <!-- Section: Links  -->
+  <section class="">
+    <div class="container text-center text-md-start mt-5">
+      <div class="row mt-3">
+
+        <!-- 管理系统简介 -->
+        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+          <h6 class="text-uppercase fw-bold mb-4">
+            <i class="fas fa-film me-3"></i>电影后台管理系统
+          </h6>
+          <p>
+            这是一个用于管理影院用户、影片、影厅、排片、座位及订单的后台管理系统，助力影院高效运营。
+          </p>
+        </div>
+
+        <!-- 产品功能 -->
+        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+          <h6 class="text-uppercase fw-bold mb-4">功能模块</h6>
+          <p><a href="/user/list" class="text-reset">用户管理</a></p>
+          <p><a href="/movie/list" class="text-reset">影片管理</a></p>
+          <p><a href="/hall/list" class="text-reset">影厅管理</a></p>
+          <p><a href="/order/list" class="text-reset">订单管理</a></p>
+        </div>
+
+        <!-- 有用链接 -->
+        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+          <h6 class="text-uppercase fw-bold mb-4">有用链接</h6>
+          <p><a href="/help" class="text-reset">帮助中心</a></p>
+          <p><a href="/contact" class="text-reset">联系我们</a></p>
+          <p><a href="/terms" class="text-reset">服务条款</a></p>
+          <p><a href="/privacy" class="text-reset">隐私政策</a></p>
+        </div>
+
+        <!-- 联系方式 -->
+        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+          <h6 class="text-uppercase fw-bold mb-4">联系方式</h6>
+          <p><i class="fas fa-map-marker-alt me-3"></i> 江苏省南京仙林大学城文澜路89号</p>
+          <p><i class="fas fa-envelope me-3"></i> support@cinema-admin.com</p>
+          <p><i class="fas fa-phone me-3"></i> +86 123 4567 8900</p>
+          <p><i class="fas fa-fax me-3"></i> +86 123 4567 8901</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Copyright -->
+  <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+    © 2025 电影后台管理系统 版权所有
+  </div>
+
+</footer>
+<!-- Footer -->
+
+{#两个js导入顺序不能错#}
+<script src="{% static "bootstrap-5.3.0-alpha1-dist/js/bootstrap.min.js" %}"></script>
+<script src="{% static "jquery-3.6.4.min.js" %} "></script>
+<script src="{% static "bootstrap-5.3.0-alpha1-dist/js/bootstrap.bundle.js"%}"></script>
+
+<script src="{% static "MDB5-STANDARD-UI-KIT-Free-6.2.0/js/mdb.min.js" %}"></script>
+
+{% block js %}{% endblock %}
+</body>
+</html>

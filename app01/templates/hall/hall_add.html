@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<br>
+<div>
+    <div class="container">
+        <ul class="list-group">
+            <li class="list-group-item list-group-item-dark">
+                <i class="bi bi-door-open-fill"></i>
+                <strong>添加影厅</strong>
+            </li>
+            <li class="list-group-item">
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>影厅名称</strong></label>
+                        <input type="text" class="form-control" name="name" placeholder="请输入影厅名称">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>座位总数</strong></label>
+                        <input type="number" class="form-control" name="seat_count" placeholder="请输入座位总数">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>正在播放影片</strong></label>
+                        <select class="form-select" name="movie_id">
+                            <option value="">-- 请选择影片 --</option>
+                            {% for movie in movies %}
+                                <option value="{{ movie.movie_id }}">{{ movie.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div style="margin: 10px">
+                        <button type="submit" class="btn btn-success">提交</button>
+                        <a href="/hall/list" class="btn btn-secondary">返回</a>
+                    </div>
+                </form>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

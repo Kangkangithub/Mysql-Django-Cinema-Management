@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-4">
+    <div style="margin-bottom: 10px;">
+        <a class="btn btn-success" href="/hall/add">
+            <i class="bi bi-plus-circle-fill"></i> 添加影厅
+        </a>
+    </div>
+    <ul class="list-group">
+        <li class="list-group-item list-group-item-dark">
+            <i class="bi bi-building"></i> <strong>影厅列表</strong>
+        </li>
+        <li class="list-group-item">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>编号</th>
+                        <th>名称</th>
+                        <th>座位总数</th>
+                        <th>正在播放影片</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for obj in queryset %}
+                    <tr>
+                        <td>{{ obj.hall_id }}</td>
+                        <td>{{ obj.name }}</td>
+                        <td>{{ obj.seat_count }}</td>
+                        <td>{{ obj.movie.title }}</td>
+                        <td>
+                            <a class="btn btn-primary btn-sm" href="/hall/{{ obj.hall_id }}/edit">编辑</a>
+                            <a class="btn btn-danger btn-sm" href="/hall/delete/?nid={{ obj.hall_id }}">删除</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </li>
+    </ul>
+</div>
+{% endblock %}

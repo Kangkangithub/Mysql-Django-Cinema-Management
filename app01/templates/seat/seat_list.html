@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<br>
+<div class="container">
+    <ul class="list-group">
+        <li class="list-group-item list-group-item-dark">
+            <i class="bi bi-table"></i>
+            <strong>座位列表</strong>
+            <a href="/seat/add" class="btn btn-success btn-sm float-end">
+                <i class="bi bi-plus-circle"></i> 添加座位
+            </a>
+        </li>
+        <li class="list-group-item">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>座位编号</th>
+                        <th>座位号</th>
+                        <th>状态</th>
+                        <th>影厅</th>
+                        <th>排片</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for obj in queryset %}
+                        <tr>
+                            <td>{{ obj.seat_id }}</td>
+                            <td>{{ obj.seat_number }}</td>
+                            <td>
+                                {% if obj.status == 0 %}
+                                    <span class="badge bg-success">可用</span>
+                                {% elif obj.status == 1 %}
+                                    <span class="badge bg-warning text-dark">已预订</span>
+                                {% elif obj.status == 2 %}
+                                    <span class="badge bg-danger">已锁定</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">未知</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ obj.hall.name }}</td>
+                            <td>
+                                {{ obj.schedule.movie.title }}<br>
+                                {{ obj.schedule.show_time|date:"Y-m-d H:i" }}
+                            </td>
+                            <td>
+                                <a class="btn btn-primary btn-sm" href="/seat/edit/{{ obj.seat_id }}">
+                                    编辑
+                                </a>
+                                <a class="btn btn-danger btn-sm" href="/seat/delete?nid={{ obj.seat_id }}">
+                                    删除
+                                </a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">暂无座位信息</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </li>
+    </ul>
+</div>
+{% endblock %}
