@@ -35,7 +35,9 @@
   - Django Middleware - 中间件
   - Django Admin - 后台管理
 - **MySQL 8.0+** - 关系型数据库
-- **mysqlclient 2.1.1** - MySQL 数据库连接器
+- **PyMySQL 1.1.1** - MySQL 数据库连接器（推荐）
+- **mysqlclient 2.1.1** - 备选 MySQL 连接器
+- **cryptography** - 加密库（MySQL 8.0 认证需要）
 
 ### 前端技术
 - **HTML5** - 页面结构
@@ -69,7 +71,8 @@
 ### 依赖包
 ```
 django==4.2
-mysqlclient==2.1.1
+PyMySQL==1.1.1
+cryptography
 ```
 
 ## 🔧 安装指南
@@ -95,6 +98,8 @@ source venv/bin/activate
 ```bash
 pip install -r requirement.txt
 ```
+
+**注意**：如果在 Windows 系统上安装 `mysqlclient` 遇到编译错误，项目已配置使用 `PyMySQL` 作为替代方案，无需担心。
 
 ### 4. 数据库配置
 
@@ -138,15 +143,10 @@ python manage.py migrate
 
 ### 6. 创建管理员账户
 ```bash
-python manage.py shell
+python -c "import os; os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Learntest.settings'); import django; django.setup(); import app01.models; app01.models.MyAdmin.objects.create(id='admin', user_name='admin', password='9b7bdac3cbd4af86551d5f27d64a5291'); print('管理员账户创建成功！')"
 ```
 
-在 Django shell 中执行：
-```python
-import app01.models
-app01.models.MyAdmin.objects.create(id="admin", user_name="admin", password="9b7bdac3cbd4af86551d5f27d64a5291")
-exit()
-```
+**注意**：如果提示管理员账户已存在，说明之前已经创建过，可以直接使用。
 
 ### 7. 启动服务器
 ```bash
@@ -162,6 +162,36 @@ python manage.py runserver 8008
 - 访问地址：http://127.0.0.1:8000
 - 管理员账号：`admin`
 - 管理员密码：`12345678`
+
+## 🚨 常见问题解决
+
+### Windows 环境下 mysqlclient 安装失败
+如果遇到以下错误：
+```
+LINK : fatal error LNK1181: 无法打开输入文件"mariadbclient.lib"
+```
+
+**解决方案**：
+1. 项目已配置使用 PyMySQL 替代 mysqlclient
+2. 确保安装了 cryptography 包：`pip install cryptography`
+3. 无需额外配置，系统会自动使用 PyMySQL
+
+### MySQL 8.0 认证问题
+如果遇到认证错误：
+```
+RuntimeError: 'cryptography' package is required for sha256_password or caching_sha2_password auth methods
+```
+
+**解决方案**：
+```bash
+pip install cryptography
+```
+
+### 数据库连接问题
+1. 确保 MySQL 服务正在运行
+2. 检查数据库配置信息是否正确
+3. 确保数据库已创建
+4. 检查用户权限
 
 ## 📁 项目结构
 
@@ -179,7 +209,7 @@ Mysql-Django-Cinema-Management/
 │   ├── wsgi.py                 # WSGI 配置
 │   └── asgi.py                 # ASGI 配置
 ├── app01/                      # 主应用
-│   ├── __init__.py
+│   ├── __init__.py             # PyMySQL 配置
 │   ├── admin.py                # Django Admin 配置
 │   ├── apps.py                 # 应用配置
 │   ├── models.py               # 数据模型
@@ -367,7 +397,6 @@ Mysql-Django-Cinema-Management/
 如有问题或建议，请通过以下方式联系：
 
 - 创建 GitHub Issue
-- 发送邮件至项目维护者
 - 参与项目讨论
 
 ## 🙏 致谢
